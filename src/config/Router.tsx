@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
 import Home from "../pages/Home";
 
 const theme = createMuiTheme({
@@ -12,6 +12,7 @@ const theme = createMuiTheme({
 const Router = () => {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Switch>
         <Route exact path="/" render={() => <Home />}/>
       </Switch>
