@@ -70,7 +70,8 @@ const Layout = ({ children }: propTypes) => {
         className={classes.drawer}
         variant="persistent"
         anchor="right"
-        open={open}
+        open
+        // ={open}
         classes={{
           paper: classes.drawerPaper,
         }}

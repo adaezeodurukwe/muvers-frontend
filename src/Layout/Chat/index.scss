@@ -1,0 +1,8 @@
+.chat {
+  display: flex;
+  justify-content: space-around;
+  &-form {
+    position: fixed;
+    bottom: 0;
+  }
+}

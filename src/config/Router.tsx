@@ -6,6 +6,9 @@ import Home from "../pages/Home";
 const theme = createMuiTheme({
   palette: {
     type: "dark",
+    primary: {
+      main: '#FFDA33',
+    },
   },
 });
 
