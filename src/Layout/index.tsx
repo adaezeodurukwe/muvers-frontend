@@ -3,14 +3,16 @@ import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import IconButton from "@material-ui/core/IconButton";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import { QuestionAnswer, Close } from "@material-ui/icons";
 import Chat from "./Chat";
+import "./index.scss";
 
 const drawerWidth = 300;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    position: "relative",
   },
   drawer: {
     width: drawerWidth,
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface propTypes {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Layout = ({ children }: propTypes) => {
@@ -56,31 +58,36 @@ const Layout = ({ children }: propTypes) => {
           [classes.contentShift]: open,
         })}
       >
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="end"
-          onClick={handleDrawerToggle}
-        >
-          <QuestionAnswerIcon />
-        </IconButton>
+        <div className="open-chat">
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerToggle}
+          >
+            <QuestionAnswer />
+          </IconButton>
+        </div>
         {children}
       </main>
       <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="right"
-        open
-        // ={open}
+        open={open}
         classes={{
           paper: classes.drawerPaper,
         }}
       >
+        <div className="close">
+          <IconButton aria-label="close drawer" onClick={handleDrawerToggle}>
+            <Close />
+          </IconButton>
+        </div>
         <Chat />
       </Drawer>
     </section>
   );
 };
-
 
 export default Layout;

@@ -1,0 +1,16 @@
+main {
+  height: 100vh;
+  overflow: scroll;
+}
+
+.open-chat{
+  position: absolute;
+  bottom: 1rem;
+  right: 2rem;
+}
+
+.close {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
