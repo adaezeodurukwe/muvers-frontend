@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
-import { DialogContent, DialogActions, Button, TextField, Radio } from '@material-ui/core'
+import React, { useState } from 'react';
+import clsx from "clsx";
+import { DialogContent, DialogActions, Button, TextField } from '@material-ui/core'
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns'
+import DateFnsUtils from '@date-io/date-fns';
 import DialogWrapper from '../DialogBox.js';
-import { Email } from '@material-ui/icons';
+import "./index.scss";
 
 //'2014-08-18T21:11:54'
 
@@ -17,7 +18,8 @@ const SignUP = ({ handleClose, open }) => {
     name: "",
     phone: "",
     email: "",
-    password: ""
+    password: "",
+    plan: ""
   })
   const [stage, setStage] = useState(1);
 
@@ -25,91 +27,134 @@ const SignUP = ({ handleClose, open }) => {
     setSelectedDate(date);
   };
 
-  const handleDetails = () => {
-    
+  const getTitle = () => {
+    let title;
+    if (stage === 1) {
+      title = "Select Preferred Date and time"
+    }
+    if (stage === 2) {
+      title = "Select plan"
+    }
+    if (stage === 3) {
+      title = "Enter Details"
+    }
+    return title;
+  }
+
+  const handleDetails = ({ target: { value, name } }) => {
+    const newValue = {}
+    newValue[name] = value
+    setDetails({ ...details, ...newValue })
   }
 
   const handleNextState = () => {
     setStage(stage + 1)
   }
+
   const handlePrevState = () => {
     setStage(stage - 1)
   }
 
+  const handleSubmit = () => {
+    console.log(details, selectedDate);
+  }
+
   return (
-    <DialogWrapper handleClose={handleClose} open={open}>
+    <DialogWrapper title={getTitle()} handleClose={handleClose} open={open}>
       <DialogContent>
         {stage === 1 && <div>
-          <h5>Select Preferred Date and time</h5>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Date picker inline"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            <KeyboardTimePicker
-              margin="normal"
-              id="time-picker"
-              label="Time picker"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
-            />
+            <div className="d-flex justify-content-between align-items-center">
+              <KeyboardDatePicker
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                label="Select Move Date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change date',
+                }}
+              />
+              <KeyboardTimePicker
+                margin="normal"
+                variant="inline"
+                id="time-picker"
+                label="Select Preferred Time"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  'aria-label': 'change time',
+                }}
+              />
+            </div>
           </MuiPickersUtilsProvider>
         </div>}
-        {stage === 2 && <div>
-          <h5>Select plan</h5>
+        {stage === 2 && <div className="radio-container">
           <p>Payment after service</p>
-          <label htmlFor="plan1">
-            <input id="plan1" type="radio" />
+          <div className="d-flex align-items-center">
+            <label
+              className={clsx("w-100 mx-1 border rounded px-2 py-4", { "isActive": details.plan === "plan1" })}
+              htmlFor="plan1">
+              <input
+                onChange={handleDetails}
+                name="plan"
+                value="plan1"
+                className="d-none"
+                id="plan1"
+                type="radio" />
             1-2 rooms
           </label>
-          
-          <label htmlFor="plan2">
-            <input id="plan2" type="radio" />
+
+            <label className={clsx("w-100 mx-1 border rounded px-2 py-4", { "isActive": details.plan === "plan2" })} htmlFor="plan2">
+              <input onChange={handleDetails} name="plan" value="plan2" className="d-none" id="plan2" type="radio" />
             3-4 rooms
           </label>
 
-          <label htmlFor="plan2">
-            <input id="plan2" type="radio" />
+            <label className={clsx("w-100 mx-1 border rounded px-2 py-4", { "isActive": details.plan === "plan3" })} htmlFor="plan2">
+              <input onChange={handleDetails} name="plan" value="plan3" className="d-none" id="plan3" type="radio" />
             more than 4 rooms
           </label>
+          </div>
+
         </div>}
-        {stage === 3 && <div>
-          <h5>Enter Details</h5>
+        {stage === 3 && <div className="d-flex flex-column">
           <TextField
             label="name"
             value={details.name}
+            onChange={handleDetails}
+            name="name"
+            className="mb-2"
           />
           <TextField
             label="phoneNumber"
             value={details.phone}
+            onChange={handleDetails}
+            name="phone"
+            className="mb-2"
           />
           <TextField
             label="email"
             value={details.email}
+            onChange={handleDetails}
+            name="email"
+            className="mb-2"
           />
           <TextField
             label="set Password"
             value={details.password}
+            onChange={handleDetails}
+            name="password"
+            className="mb-2"
           />
         </div>}
 
       </DialogContent>
       <DialogActions>
-        <Button onClick={handlePrevState}>Prev</Button>
-        <Button onClick={handleNextState}>Next</Button>
-        <Button>Submit</Button>
+        {stage > 1 && stage <= 3 && <Button onClick={handlePrevState}>Prev</Button>}
+        {stage < 3 && <Button onClick={handleNextState}>Next</Button>}
+        {stage === 3 && <Button onClick={handleSubmit} color="secondary" variant="contained">Submit</Button>}
       </DialogActions>
     </DialogWrapper>
   )
