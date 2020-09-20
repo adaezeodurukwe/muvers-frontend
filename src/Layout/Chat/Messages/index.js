@@ -6,11 +6,11 @@ const Messages = ({ messages }) => {
   const message = () => {
     return messages.map(message => {
       return (
-        <div key={message.id.toString()} className={clsx("p-2",{ "message-customer": message.senderName !== "admin" }, {
+        <div key={message.id.toString()} className={clsx("px-3 py-2 mb-3",{ "message-customer": message.senderName !== "admin" }, {
           "message-admin": message.senderName === "admin"
         })}>
-          <h5>{message.senderName}</h5>
-          <p>{message.message}</p>
+          <h6>{message.senderName}</h6>
+          <p className="mb-0">{message.message}</p>
         </div>
       )
     })
