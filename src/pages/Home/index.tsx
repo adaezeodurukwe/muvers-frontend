@@ -1,13 +1,24 @@
-import React, { useState } from "react";
-import "./index.scss";
+import React, { useEffect, useState } from "react";
 import Layout from "../../Layout";
 import Delivery from "../../assets/delivery.svg";
 import { Button } from "@material-ui/core";
 import SignUP from "./SignUp";
+import SignIn from "./SignIn";
+import { useLocation } from "react-router-dom";
+import "./index.scss";
 
 const Home = () => {
+  const {pathname} = useLocation()
   const [openSignUpModal, setOpenSignUpModal] = useState(false)
-  const closeSIgnUp = () => {
+  const [openSignInModal, setOpenSignInModal] = useState(false)
+
+  useEffect(() => {
+    if (pathname.includes("login")) {
+      setOpenSignInModal(true)
+    }
+  }, [pathname])
+
+  const closeSignUp = () => {
     setOpenSignUpModal(false)
   }
   const openSignUp = () => {
@@ -22,7 +33,8 @@ const Home = () => {
           <h1 className="text-center">Let us move you!</h1>
           <Button onClick={openSignUp} color="secondary" variant="contained">Get Started</Button>
         </div>
-        <SignUP open={openSignUpModal} handleClose={closeSIgnUp} />
+        <SignUP open={openSignUpModal} handleClose={closeSignUp} />
+        <SignIn handleClose={() => setOpenSignInModal(false)} open={openSignInModal} />
       </div>
     </Layout>
   );

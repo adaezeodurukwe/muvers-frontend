@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import clsx from "clsx";
 import { DialogContent, DialogActions, Button, TextField } from '@material-ui/core'
 import {
@@ -9,13 +10,16 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import DialogWrapper from '../DialogBox.js';
 import "./index.scss";
+import { createUser } from '../../../Redux/Actions/index.js';
 
 //'2014-08-18T21:11:54'
 
 const SignUP = ({ handleClose, open }) => {
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [details, setDetails] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     email: "",
     password: "",
@@ -57,6 +61,7 @@ const SignUP = ({ handleClose, open }) => {
 
   const handleSubmit = () => {
     console.log(details, selectedDate);
+    dispatch(createUser({ ...details, time: selectedDate }))
   }
 
   return (
@@ -121,14 +126,21 @@ const SignUP = ({ handleClose, open }) => {
         </div>}
         {stage === 3 && <div className="d-flex flex-column">
           <TextField
-            label="name"
-            value={details.name}
+            label="First Name"
+            value={details.firstName}
             onChange={handleDetails}
-            name="name"
+            name="firstName"
             className="mb-2"
           />
           <TextField
-            label="phoneNumber"
+            label="Last Name"
+            value={details.lastName}
+            onChange={handleDetails}
+            name="lastName"
+            className="mb-2"
+          />
+          <TextField
+            label="Phone Number"
             value={details.phone}
             onChange={handleDetails}
             name="phone"
@@ -143,6 +155,7 @@ const SignUP = ({ handleClose, open }) => {
           />
           <TextField
             label="set Password"
+            type="password"
             value={details.password}
             onChange={handleDetails}
             name="password"

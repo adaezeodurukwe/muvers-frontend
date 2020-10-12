@@ -30,10 +30,6 @@ const Chat = () => {
     socket.emit("authenticate", { token });
   }, []);
 
-  // useEffect(() => {
-  //   console.log(chat, connectionId);
-  // }, [chat, connectionId])
-
   useEffect(() => {
     socket.on("success", (data: ReturnData) => {
       setConnectionId(data.connection.id);
