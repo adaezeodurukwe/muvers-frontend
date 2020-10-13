@@ -4,7 +4,8 @@ import { Card, IconButton } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import Layout from "../../Layout";
-import { getAllTickets } from "../../Redux/Actions";
+import { getUserTickets } from "../../Redux/Actions";
+import { Ticket } from "../../models";
 
 type map = {
   [key: string]: value
@@ -18,12 +19,6 @@ const planMap: map = {
   plan3: {name: "more than 4 rooms", price: "30,000"},
 };
 
-interface Ticket {
-  plan: string;
-  status: string;
-  time: Date;
-}
-
 const Tickets = () => {
   const dispatch = useDispatch();
   const { tickets } = useSelector((store: RootStateOrAny) => store.ticket);
@@ -33,7 +28,7 @@ const Tickets = () => {
   }, [tickets]);
 
   useEffect(() => {
-    dispatch(getAllTickets());
+    dispatch(getUserTickets());
   }, [dispatch]);
   return (
     <Layout>

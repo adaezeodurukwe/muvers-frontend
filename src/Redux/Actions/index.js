@@ -28,15 +28,31 @@ export const login = (data) => async dispatch => {
   }
 }
 
-export const getAllTickets = () => async dispatch => {
+export const getUserTickets = () => async dispatch => {
   try {
     const res = await axios.get("/tickets");
+    console.log(res);
+    dispatch({
+      type: types.GET_USER_TICKETS,
+      payload: res.data.data
+    })
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+export const getAllTickets = () => async dispatch => {
+  try {
+    const res = await axios.get("/admin/tickets");
     console.log(res);
     dispatch({
       type: types.GET_ALL_TICKETS,
       payload: res.data.data
     })
   } catch (error) {
-    handleError(error)
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
   }
 }

@@ -1,48 +1,46 @@
-import { IconButton, Snackbar } from '@material-ui/core'
-import { Close } from '@material-ui/icons'
-import React, { useEffect } from 'react'
+import { IconButton, Snackbar } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { RootStateOrAny, useSelector } from "react-redux";
 
-interface props {
-  openSnackbar: boolean, message: string
-}
 
-const CustomSnackbar = ({ openSnackbar, message }: props) => {
+const CustomSnackbar = () => {
+  const [open, setOpen] = useState(false);
+  const { error } = useSelector(({ error }: RootStateOrAny) => error);
+
   useEffect(() => {
-    if (openSnackbar) {
-      setOpen(true)
+    if (error) {
+      setOpen(true);
     }
-  }, [openSnackbar]);
-
-
-  const [open, setOpen] = React.useState(false);
+  }, [error]);
 
   const handleClose = () => {
     setOpen(false);
   };
-  return (
+  return error ? ( 
     <Snackbar
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'left',
-    }}
-    open={open}
-    autoHideDuration={6000}
-    onClose={handleClose}
-    message={message}
-    action={
-      <React.Fragment>
-        <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-          <Close fontSize="small" />
-        </IconButton>
-      </React.Fragment>
-    }
-  />
-  )
-}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+      message={error.message}
+      action={
+        <React.Fragment>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+      }
+    />
+  ) : null;
+};
 
 export default CustomSnackbar;
-
-
-export const showSnackBar = (message: string) => {
-  return <CustomSnackbar openSnackbar message={message} />
-}

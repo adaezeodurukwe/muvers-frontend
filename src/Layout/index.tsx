@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ReactNode } from "react";
+import React, { ChangeEvent, ReactNode, useState } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -48,8 +48,8 @@ interface propTypes {
 const Layout = ({ children }: propTypes) => {
   const history = useHistory();
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -66,7 +66,7 @@ const Layout = ({ children }: propTypes) => {
   const handleLogout = () => {
     localStorage.removeItem("moovers_token");
     history.push("/");
-  }
+  };
 
   return (
     <section className={classes.root}>
@@ -80,16 +80,26 @@ const Layout = ({ children }: propTypes) => {
             <MenuIcon />
           </IconButton>
           <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem><NavLink to="/login">Login</NavLink></MenuItem>
-        <MenuItem><NavLink to="/tickets">Ticket</NavLink></MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            PaperProps={{
+              style: {
+                width: "10rem",
+                borderRadius: "1rem",
+              },
+            }}
+          >
+            <NavLink to="/login">
+              <MenuItem>Login</MenuItem>
+            </NavLink>
+            <NavLink to="/tickets">
+              <MenuItem>Ticket</MenuItem>
+            </NavLink>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
         </div>
         <div className="open-chat">
           <IconButton
