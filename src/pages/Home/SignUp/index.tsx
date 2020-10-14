@@ -8,11 +8,10 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import DialogWrapper from '../DialogBox.js';
-import "./index.scss";
+import DialogWrapper from '../DialogBox.js/index.js';
 import { createUser } from '../../../Redux/Actions/index.js';
+import "./index.scss";
 
-//'2014-08-18T21:11:54'
 
 const SignUP = ({ handleClose, open }) => {
   const dispatch = useDispatch();
@@ -117,7 +116,7 @@ const SignUP = ({ handleClose, open }) => {
             3-4 rooms
           </label>
 
-            <label className={clsx("w-100 mx-1 border rounded px-2 py-4", { "isActive": details.plan === "plan3" })} htmlFor="plan2">
+            <label className={clsx("w-100 mx-1 border rounded px-2 py-4", { "isActive": details.plan === "plan3" })} htmlFor="plan3">
               <input onChange={handleDetails} name="plan" value="plan3" className="d-none" id="plan3" type="radio" />
             more than 4 rooms
           </label>

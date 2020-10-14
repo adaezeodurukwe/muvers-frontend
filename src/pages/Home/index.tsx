@@ -4,26 +4,38 @@ import Delivery from "../../assets/delivery.svg";
 import { Button } from "@material-ui/core";
 import SignUP from "./SignUp";
 import SignIn from "./SignIn";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import "./index.scss";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { clearSuccess } from "../../Redux/Actions";
 
 const Home = () => {
-  const {pathname} = useLocation()
-  const [openSignUpModal, setOpenSignUpModal] = useState(false)
-  const [openSignInModal, setOpenSignInModal] = useState(false)
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const [openSignUpModal, setOpenSignUpModal] = useState(false);
+  const [openSignInModal, setOpenSignInModal] = useState(false);
+  const { userCreated } = useSelector((store: RootStateOrAny) => store.auth);
+
+  useEffect(() => {
+    if (userCreated) {
+      history.push("/login");
+    }
+  }, [history, userCreated]);
 
   useEffect(() => {
     if (pathname.includes("login")) {
-      setOpenSignInModal(true)
+      dispatch(clearSuccess());
+      setOpenSignInModal(true);
     }
-  }, [pathname])
+  }, [dispatch, pathname]);
 
   const closeSignUp = () => {
-    setOpenSignUpModal(false)
-  }
+    setOpenSignUpModal(false);
+  };
   const openSignUp = () => {
-    setOpenSignUpModal(true)
-  }
+    setOpenSignUpModal(true);
+  };
 
   return (
     <Layout>
@@ -31,10 +43,15 @@ const Home = () => {
         <img src={Delivery} height="450" className="mr-5" alt="delivery" />
         <div className="w-100 d-flex flex-column align-items-center justify-content-center">
           <h1 className="text-center">Let us move you!</h1>
-          <Button onClick={openSignUp} color="secondary" variant="contained">Get Started</Button>
+          <Button onClick={openSignUp} color="secondary" variant="contained">
+            Get Started
+          </Button>
         </div>
         <SignUP open={openSignUpModal} handleClose={closeSignUp} />
-        <SignIn handleClose={() => setOpenSignInModal(false)} open={openSignInModal} />
+        <SignIn
+          handleClose={() => setOpenSignInModal(false)}
+          open={openSignInModal}
+        />
       </div>
     </Layout>
   );

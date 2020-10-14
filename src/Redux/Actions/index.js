@@ -2,6 +2,26 @@ import axios from "axios";
 import { handleError } from "../../utils";
 import * as types from "../Types";
 
+export const setAdminConnections = (data) => async dispatch => {
+  dispatch({
+    type: types.SET_ADMIN_CONNECTIONS,
+    payload: data.connections
+  })
+}
+
+export const addNewChat = (newChat) => dispatch => {
+  dispatch({
+    type: types.ADD_NEW_CHAT,
+    payload: newChat
+  })
+}
+
+export const clearSuccess = () => dispatch => {
+  dispatch({
+    type: types.CLEAR_USER_CREATION_SUCCESS
+  })
+}
+
 export const createUser = (data) => async dispatch => {
   try {
     const res = await axios.post("/user", data);
@@ -14,15 +34,27 @@ export const createUser = (data) => async dispatch => {
   }
 }
 
-export const login = (data) => async dispatch => {
+export const getUser = () => async dispatch => {
+  try {
+    const res = await axios.get("/currentUser");
+    dispatch({
+      type: types.GET_USER,
+      payload: res.data.data
+    })
+  } catch (error) {
+    handleError(error)
+  }
+}
+
+export const login = (data, callback) => async dispatch => {
   try {
     const res = await axios.post("/login", data);
-    console.log(res);
     localStorage.setItem("moovers_token", res.data.data.token)
     dispatch({
       type: types.LOG_IN,
       payload: res.data
     })
+    callback()
   } catch (error) {
     handleError(error)
   }
@@ -31,7 +63,6 @@ export const login = (data) => async dispatch => {
 export const getUserTickets = () => async dispatch => {
   try {
     const res = await axios.get("/tickets");
-    console.log(res);
     dispatch({
       type: types.GET_USER_TICKETS,
       payload: res.data.data
@@ -44,7 +75,6 @@ export const getUserTickets = () => async dispatch => {
 export const getAllTickets = () => async dispatch => {
   try {
     const res = await axios.get("/admin/tickets");
-    console.log(res);
     dispatch({
       type: types.GET_ALL_TICKETS,
       payload: res.data.data

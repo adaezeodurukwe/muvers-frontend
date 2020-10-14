@@ -7,7 +7,6 @@ const initialState = {
 const ticket = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.GET_USER_TICKETS:
-      console.log("lol")
       return {
         ...state,
         tickets: payload

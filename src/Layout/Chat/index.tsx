@@ -1,43 +1,47 @@
 import React, { useEffect, useState, FormEvent, ChangeEvent } from "react";
-import io from "socket.io-client";
 import SendIcon from "@material-ui/icons/Send";
+import io from "socket.io-client";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
-import "./index.scss";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import Messages from "./Messages";
+import { getUser } from "../../Redux/Actions";
+import { ChatReturnData } from "../../models";
+import "./index.scss";
 
 const url = "http://localhost:8000";
 const socket = io(url);
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiQWRhZXplIiwibGFzdE5hbWUiOiJzb29uIiwiZW1haWwiOiJ0ZXN0QGdtYWlsLmNvbSIsInBob25lIjoiMDkwOTg4OTc2NSIsImFjY291bnRUeXBlIjoiY2xpZW50IiwiY3JlYXRlZEF0IjoiMjAyMC0wOS0xMVQwNTo0NzoyMC4wMzFaIiwidXBkYXRlZEF0IjoiMjAyMC0wOS0xMVQwNTo0NzoyMC4wMzFaIiwiaWF0IjoxNTk5ODAzMjUyfQ.YMZUGtv-1bc8VX-g_hfpzFsg3V9ttT4gZTN-0uMZ3Qc";
-
-interface ReturnData {
-  newChat: Chat;
-  connection: Connection;
-}
-
-interface Chat {}
-
-interface Connection {
-  id: number;
-  chat: Chat[];
-}
+const token = localStorage.getItem("moovers_token");
 
 const Chat = () => {
+  const dispatch = useDispatch();
+  const [userId, setUserId] = useState(0);
+  const [senderName, setSenderName] = useState(0);
   const [connectionId, setConnectionId] = useState(0);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]) as any;
-  useEffect(() => {
-    socket.emit("authenticate", { token });
-  }, []);
+  const { user } = useSelector((store: RootStateOrAny) => store.auth);
 
   useEffect(() => {
-    socket.on("success", (data: ReturnData) => {
+    console.log(user);
+    if (user) {
+      setUserId(user.id);
+      setSenderName(user.email);
+      socket.emit("authenticate", { token });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    dispatch(getUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    socket.on("success", (data: ChatReturnData) => {
       setConnectionId(data.connection.id);
     });
   }, [setChat, setConnectionId]);
 
   useEffect(() => {
-    socket.on("conversation", (data: ReturnData) => {
+    socket.on("conversation", (data: ChatReturnData) => {
       if (data.connection) {
         setChat(data.connection.chat);
       }
@@ -55,9 +59,9 @@ const Chat = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     socket.emit(`${connectionId}-message`, {
-      userId: 2,
+      userId,
       parentId: 1,
-      senderName: "Adaeze",
+      senderName,
       connectionId,
       message,
     });
@@ -65,9 +69,9 @@ const Chat = () => {
 
   return (
     <div className="chat">
-      {chat[0] && <Messages messages={chat} />}
+      {chat && chat[0] && <Messages messages={chat} />}
       <div className="chat-form">
-        <form  onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <TextField
             label="Enter text"
             onChange={handleInputChange}
