@@ -5,7 +5,7 @@ import Router from './config/Router';
 
 
 // axios.defaults.baseURL= "http://localhost:8000/api/v1";
-axios.defaults.baseURL= "https://muvers-backend.herokuapp.com/";
+axios.defaults.baseURL= "https://muvers-backend.herokuapp.com/api/v1";
 if (localStorage.moovers_token) {
   axios.defaults.headers.common["Authorization"] = `Bearer ${localStorage.moovers_token}`
 }
