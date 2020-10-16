@@ -9,7 +9,7 @@ import {
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import DialogWrapper from '../../../components/DialogWrapper';
-import { createTicket } from '../../../Redux/Actions/index.js';
+import { createTicket } from '../../../redux/Actions/index.js';
 import "../../Home/index.scss";
 
 

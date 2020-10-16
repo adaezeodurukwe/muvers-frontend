@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import DialogWrapper from "../../../components/DialogWrapper";
 import { useDispatch } from "react-redux";
-import { updateTicket } from "../../../Redux/Actions";
+import { updateTicket } from "../../../redux/Actions";
 
 const AddNote = ({ handleClose, open, ticket }) => {
   const dispatch = useDispatch();

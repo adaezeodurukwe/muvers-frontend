@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import { getAllTickets } from "../../../Redux/Actions";
+import { getAllTickets } from "../../../redux/Actions";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";

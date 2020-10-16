@@ -4,11 +4,12 @@ import io from "socket.io-client";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import Messages from "./Messages";
-import { getUser } from "../../Redux/Actions";
+import { getUser } from "../../redux/Actions";
 import { ChatReturnData } from "../../models";
 import "./index.scss";
 
-const url = "http://localhost:8000";
+// const url = "http://localhost:8000";
+const url = "https://muvers-backend.herokuapp.com/";
 const socket = io(url);
 const token = localStorage.getItem("moovers_token");
 

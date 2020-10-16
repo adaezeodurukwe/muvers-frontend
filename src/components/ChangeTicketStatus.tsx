@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import DialogWrapper from "./DialogWrapper";
 import { useDispatch } from "react-redux";
-import { updateTicket } from "../Redux/Actions";
+import { updateTicket } from "../redux/Actions";
 
 const ChangeStatus = ({ handleClose, open, ticket, isAdmin }) => {
   const dispatch = useDispatch();

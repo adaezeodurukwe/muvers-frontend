@@ -17,9 +17,10 @@ import {
   addNewChat,
   getUser,
   setAdminConnections,
-} from "../../../Redux/Actions";
+} from "../../../redux/Actions";
 
-const url = "http://localhost:8000";
+// const url = "http://localhost:8000";
+const url = "https://muvers-backend.herokuapp.com/";
 const socket = io(url);
 const token = localStorage.getItem("moovers_token");
 

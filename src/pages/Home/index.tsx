@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../Layout";
+import Layout from "../../layout";
 import Delivery from "../../assets/delivery.svg";
 import { Button } from "@material-ui/core";
 import SignUP from "./SignUp";
@@ -7,7 +7,7 @@ import SignIn from "./SignIn";
 import { useHistory, useLocation } from "react-router-dom";
 import "./index.scss";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
-import { clearSuccess } from "../../Redux/Actions";
+import { clearSuccess } from "../../redux/Actions";
 
 const Home = () => {
   const dispatch = useDispatch();

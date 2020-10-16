@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DialogContent, DialogActions, Button, TextField } from '@material-ui/core';
 import DialogWrapper from '../DialogBox.js/index.js';
 import { useDispatch } from 'react-redux';
-import { login } from '../../../Redux/Actions/index.js';
+import { login } from '../../../redux/Actions/index.js';
 import "../SignUp/index.scss";
 import { useHistory } from 'react-router-dom';
 
