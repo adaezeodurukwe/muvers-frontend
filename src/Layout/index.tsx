@@ -7,7 +7,9 @@ import { QuestionAnswer, Close, Menu as MenuIcon } from "@material-ui/icons";
 import Chat from "./Chat";
 import "./index.scss";
 import { Menu, MenuItem } from "@material-ui/core";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { RootStateOrAny, useSelector } from "react-redux";
+import CustomSnackbar from "../components/Snackbar";
 
 const drawerWidth = 300;
 
@@ -46,10 +48,10 @@ interface propTypes {
 }
 
 const Layout = ({ children }: propTypes) => {
-  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const { loggedIn } = useSelector(({ auth }: RootStateOrAny) => auth);
 
   const handleClick = (event: ChangeEvent<any>) => {
     setAnchorEl(event.currentTarget);
@@ -65,7 +67,8 @@ const Layout = ({ children }: propTypes) => {
 
   const handleLogout = () => {
     localStorage.removeItem("moovers_token");
-    history.push("/");
+    localStorage.removeItem("moovers_isAdmin");
+    window.location.replace("/");
   };
 
   return (
@@ -92,16 +95,23 @@ const Layout = ({ children }: propTypes) => {
               },
             }}
           >
-            <NavLink to="/login">
+            <NavLink to="/">
+              <MenuItem>Home</MenuItem>
+            </NavLink>
+            {!loggedIn && <NavLink to="/login">
               <MenuItem>Login</MenuItem>
-            </NavLink>
-            <NavLink to="/tickets">
-              <MenuItem>Ticket</MenuItem>
-            </NavLink>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </NavLink>}
+            {loggedIn && (
+              <>
+                <NavLink to="/tickets">
+                  <MenuItem>Tickets</MenuItem>
+                </NavLink>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </>
+            )}
           </Menu>
         </div>
-        <div className="open-chat">
+        {loggedIn && <div className="open-chat">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -110,7 +120,7 @@ const Layout = ({ children }: propTypes) => {
           >
             <QuestionAnswer />
           </IconButton>
-        </div>
+        </div>}
         {children}
       </main>
       <Drawer
@@ -129,6 +139,7 @@ const Layout = ({ children }: propTypes) => {
         </div>
         <Chat />
       </Drawer>
+      <CustomSnackbar />
     </section>
   );
 };

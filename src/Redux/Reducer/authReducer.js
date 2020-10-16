@@ -1,6 +1,8 @@
 import * as types from "../Types";
 
-const initialState = {};
+const initialState = {
+  loggedIn: !!(localStorage.moovers_token),
+};
 
 const auth = (state = initialState, { type, payload }) => {
   switch (type) {

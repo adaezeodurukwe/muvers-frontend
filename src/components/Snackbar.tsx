@@ -3,7 +3,6 @@ import { Close } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { RootStateOrAny, useSelector } from "react-redux";
 
-
 const CustomSnackbar = () => {
   const [open, setOpen] = useState(false);
   const { error } = useSelector(({ error }: RootStateOrAny) => error);
@@ -17,7 +16,7 @@ const CustomSnackbar = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  return error ? ( 
+  return error ? (
     <Snackbar
       anchorOrigin={{
         vertical: "bottom",
@@ -26,7 +25,11 @@ const CustomSnackbar = () => {
       open={open}
       autoHideDuration={6000}
       onClose={handleClose}
-      message={error.message}
+      message={
+        typeof error.message === "string"
+          ? error.message
+          : "Oops! Something went wrong"
+      }
       action={
         <React.Fragment>
           <IconButton

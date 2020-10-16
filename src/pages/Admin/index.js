@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { ConfirmationNumber, MoveToInbox } from '@material-ui/icons';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import Chat from './Chats';
 import Tickets from './Tickets';
 import CustomSnackbar from '../../components/Snackbar';
@@ -33,8 +33,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Admin = () => {
+  const history = useHistory()
   const classes = useStyles();
   const { pathname } = useLocation()
+
+  useEffect(() => {
+    if(!localStorage.getItem("moovers_isAdmin")) {
+      history.push("/");
+    };
+  }, [history])
 
   const getPage = () => {
     if (pathname.includes("messages")) {

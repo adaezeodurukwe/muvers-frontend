@@ -1,5 +1,4 @@
 import axios from "axios";
-import { handleError } from "../../utils";
 import * as types from "../Types";
 
 export const setAdminConnections = (data) => async dispatch => {
@@ -30,7 +29,10 @@ export const createUser = (data) => async dispatch => {
       payload: res.data
     })
   } catch (error) {
-    handleError(error)
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
   }
 }
 
@@ -42,7 +44,10 @@ export const getUser = () => async dispatch => {
       payload: res.data.data
     })
   } catch (error) {
-    handleError(error)
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
   }
 }
 
@@ -50,13 +55,17 @@ export const login = (data, callback) => async dispatch => {
   try {
     const res = await axios.post("/login", data);
     localStorage.setItem("moovers_token", res.data.data.token)
+    localStorage.setItem("moovers_isAdmin", res.data.data.accountType === "client" ? false : true)
     dispatch({
       type: types.LOG_IN,
       payload: res.data
     })
     callback()
   } catch (error) {
-    handleError(error)
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
   }
 }
 
@@ -68,7 +77,10 @@ export const getUserTickets = () => async dispatch => {
       payload: res.data.data
     })
   } catch (error) {
-    handleError(error)
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
   }
 }
 
@@ -79,6 +91,40 @@ export const getAllTickets = () => async dispatch => {
       type: types.GET_ALL_TICKETS,
       payload: res.data.data
     })
+  } catch (error) {
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
+  }
+}
+
+export const createTicket = (data, callback) => async dispatch => {
+  try {
+    const res = await axios.post("/ticket", data);
+    dispatch({
+      type: types.CREATE_TICKET,
+      payload: res.data.data
+    })
+    callback();
+  } catch (error) {
+    dispatch({
+      type: types.ERROR,
+      payload: error.response.data
+    })
+  }
+}
+
+export const updateTicket = (data, id, callback, isAdmin) => async dispatch => {
+  const url = isAdmin ? `/ticket/${id}` : `admin/ticket/${id}`
+
+  try {
+    const res = await axios.put(url, data);
+    dispatch({
+      type: types.UPDATE_TICKET,
+      payload: res.data.data
+    })
+    callback();
   } catch (error) {
     dispatch({
       type: types.ERROR,

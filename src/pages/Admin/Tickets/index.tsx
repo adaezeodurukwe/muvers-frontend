@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { getAllTickets } from "../../../Redux/Actions";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
@@ -12,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import { Ticket } from "../../../models";
 import { IconButton } from "@material-ui/core";
 import { ArrowDropDown } from "@material-ui/icons";
+import ChangeStatus from "../../../components/ChangeTicketStatus";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -42,6 +44,8 @@ const Tickets = () => {
   const [rows, setRows] = useState([]) as any;
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [openStatus, setOpenStatus] = useState(false);
+  const [currentTicket, setCurrentTicket] = useState({});
   const { allTickets } = useSelector((store: RootStateOrAny) => store.ticket);
 
   useEffect(() => {
@@ -73,6 +77,11 @@ const Tickets = () => {
       setRows(newRows);
     }
   }, [allTickets, setRows]);
+
+  const handleOpenStatus = (ticket) => {
+    setOpenStatus(true);
+    setCurrentTicket(ticket);
+  };
 
   const createData = (
     email: string,
@@ -106,13 +115,19 @@ const Tickets = () => {
                 </StyledTableCell>
                 <StyledTableCell>{row.note}</StyledTableCell>
                 <StyledTableCell>{row.plan}</StyledTableCell>
-                <StyledTableCell>{row.time}</StyledTableCell>
-                <StyledTableCell>{row.status}<IconButton><ArrowDropDown /></IconButton></StyledTableCell>
+                <StyledTableCell>{dayjs(row.time).format("YYYY MMMM DD - HH:MM")}</StyledTableCell>
+                <StyledTableCell>{row.status}<IconButton onClick={() => handleOpenStatus(allTickets[index])}><ArrowDropDown /></IconButton></StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <ChangeStatus
+        open={openStatus}
+        handleClose={() => setOpenStatus(false)}
+        ticket={currentTicket}
+        isAdmin
+      />
     </div>
   );
 };
