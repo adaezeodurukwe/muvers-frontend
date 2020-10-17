@@ -32,7 +32,6 @@ const CreateTicket = ({ handleClose, open }) => {
   }
 
   const handleSubmit = () => {
-    console.log(details, selectedDate);
     dispatch(createTicket({ ...details, time: selectedDate }, handleClose))
   }
 

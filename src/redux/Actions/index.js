@@ -55,12 +55,12 @@ export const login = (data, callback) => async dispatch => {
   try {
     const res = await axios.post("/login", data);
     localStorage.setItem("moovers_token", res.data.data.token)
-    localStorage.setItem("moovers_isAdmin", res.data.data.accountType === "client" ? false : true)
+    localStorage.setItem("moovers_isAdmin", res.data.data.user.accountType === "client" ? false : true)
     dispatch({
       type: types.LOG_IN,
       payload: res.data
     })
-    callback()
+    callback();
   } catch (error) {
     dispatch({
       type: types.ERROR,
@@ -116,16 +116,18 @@ export const createTicket = (data, callback) => async dispatch => {
 }
 
 export const updateTicket = (data, id, callback, isAdmin) => async dispatch => {
-  const url = isAdmin ? `/ticket/${id}` : `admin/ticket/${id}`
+  const url = isAdmin ? `admin/ticket/${id}` : `/ticket/${id}`
+  const type = isAdmin ? types.ADMIN_UPDATE_TICKET : types.UPDATE_TICKET
 
   try {
     const res = await axios.put(url, data);
     dispatch({
-      type: types.UPDATE_TICKET,
+      type,
       payload: res.data.data
     })
     callback();
   } catch (error) {
+    console.log({error});
     dispatch({
       type: types.ERROR,
       payload: error.response.data

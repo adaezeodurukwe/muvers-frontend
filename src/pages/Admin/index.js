@@ -10,6 +10,7 @@ import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import Chat from './Chats';
 import Tickets from './Tickets';
 import CustomSnackbar from '../../components/Snackbar';
+import { AppBar } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -38,7 +39,7 @@ const Admin = () => {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    if(!localStorage.getItem("moovers_isAdmin")) {
+    if (!localStorage.getItem("moovers_isAdmin")) {
       history.push("/");
     };
   }, [history])
@@ -53,31 +54,53 @@ const Admin = () => {
 
   return (
     <div className={classes.root}>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        anchor="left"
-      >
-        <List className="mt-4">
-          <NavLink to="/admin/tickets">
-            <ListItem button key="tickets">
-              <ListItemIcon> <ConfirmationNumber /></ListItemIcon>
-              <ListItemText primary="Tickets" />
-            </ListItem>
-          </NavLink>
-          <NavLink to="/admin/messages">
-            <ListItem button key="messages">
-              <ListItemIcon><MoveToInbox /></ListItemIcon>
-              <ListItemText primary="Messages" />
-            </ListItem>
-          </NavLink>
-        </List>
-      </Drawer>
+      <div className="d-none d-sm-block">
+        <Drawer
+          className={classes.drawer}
+          variant="permanent"
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          anchor="left"
+        >
+          <List className="mt-4">
+            <NavLink to="/admin/tickets">
+              <ListItem button key="tickets">
+                <ListItemIcon> <ConfirmationNumber /></ListItemIcon>
+                <ListItemText primary="Tickets" />
+              </ListItem>
+            </NavLink>
+            <NavLink to="/admin/messages">
+              <ListItem button key="messages">
+                <ListItemIcon><MoveToInbox /></ListItemIcon>
+                <ListItemText primary="Messages" />
+              </ListItem>
+            </NavLink>
+          </List>
+        </Drawer>
+      </div>
+      <div className="d-sm-none d-block pt-5">
+        <AppBar color="default">
+          <List className="d-flex">
+            <NavLink to="/admin/tickets">
+              <ListItem button key="tickets">
+                <ListItemIcon> <ConfirmationNumber /></ListItemIcon>
+                <ListItemText primary="Tickets" />
+              </ListItem>
+            </NavLink>
+            <NavLink to="/admin/messages">
+              <ListItem button key="messages">
+                <ListItemIcon><MoveToInbox /></ListItemIcon>
+                <ListItemText primary="Messages" />
+              </ListItem>
+            </NavLink>
+          </List>
+        </AppBar>
+      </div>
       <main className={classes.content}>
-        {getPage()}
+        <div className="mt-5 mt-sm-0">
+          {getPage()}
+        </div>
       </main>
       <CustomSnackbar />
     </div>

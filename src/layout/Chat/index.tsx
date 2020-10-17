@@ -20,10 +20,9 @@ const Chat = () => {
   const [connectionId, setConnectionId] = useState(0);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]) as any;
-  const { user } = useSelector((store: RootStateOrAny) => store.auth);
+  const { user, loggedIn } = useSelector((store: RootStateOrAny) => store.auth);
 
   useEffect(() => {
-    console.log(user);
     if (user) {
       setUserId(user.id);
       setSenderName(user.email);
@@ -32,8 +31,10 @@ const Chat = () => {
   }, [user]);
 
   useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
+    if (loggedIn) {
+      dispatch(getUser());
+    }
+  }, [dispatch, loggedIn]);
 
   useEffect(() => {
     socket.on("success", (data: ChatReturnData) => {

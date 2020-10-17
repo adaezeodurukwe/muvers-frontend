@@ -59,7 +59,6 @@ const SignUP = ({ handleClose, open }) => {
   }
 
   const handleSubmit = () => {
-    console.log(details, selectedDate);
     dispatch(createUser({ ...details, time: selectedDate }))
   }
 

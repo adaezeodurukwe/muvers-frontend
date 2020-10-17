@@ -98,29 +98,31 @@ const Layout = ({ children }: propTypes) => {
             <NavLink to="/">
               <MenuItem>Home</MenuItem>
             </NavLink>
-            {!loggedIn && <NavLink to="/login">
-              <MenuItem>Login</MenuItem>
-            </NavLink>}
-            {loggedIn && (
-              <>
-                <NavLink to="/tickets">
-                  <MenuItem>Tickets</MenuItem>
-                </NavLink>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </>
+            {!loggedIn && (
+              <NavLink to="/login">
+                <MenuItem>Login</MenuItem>
+              </NavLink>
             )}
+            {loggedIn && (
+              <NavLink to="/tickets">
+                <MenuItem>Tickets</MenuItem>
+              </NavLink>
+            )}
+            {loggedIn && <MenuItem onClick={handleLogout}>Logout</MenuItem>}
           </Menu>
         </div>
-        {loggedIn && <div className="open-chat">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerToggle}
-          >
-            <QuestionAnswer />
-          </IconButton>
-        </div>}
+        {loggedIn && (
+          <div className="open-chat">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="end"
+              onClick={handleDrawerToggle}
+            >
+              <QuestionAnswer />
+            </IconButton>
+          </div>
+        )}
         {children}
       </main>
       <Drawer

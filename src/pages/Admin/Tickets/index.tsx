@@ -53,8 +53,6 @@ const Tickets = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("alltickets", allTickets);
-
     if (allTickets && allTickets[0]) {
       const newRows: {
         email: string;

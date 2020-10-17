@@ -25,7 +25,6 @@ const SignIn = ({ handleClose, open }) => {
   }
 
   const handleSubmit = () => {
-    console.log(details);
     dispatch(login(details, redirect));
   }
 

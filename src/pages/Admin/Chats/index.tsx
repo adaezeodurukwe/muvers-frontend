@@ -43,7 +43,6 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("conversation", (data: ChatReturnData) => {
-      console.log(data);
       if (data.newChat) {
         const messageCopy = [...message];
         messageCopy[data.newChat.connectionId] = "";

@@ -27,10 +27,22 @@ const ticket = (state = initialState, { type, payload }) => {
         tickets: ticketsClone
       }
 
+      case types.ADMIN_UPDATE_TICKET:
+        const tickets = state.allTickets.map(ticket => {
+          if (ticket.id === payload[0].id) {
+            
+            return payload[0]
+          } else {
+            return ticket
+          }
+        })
+      return {
+        ...state,
+        allTickets: tickets
+      }
+
       case types.UPDATE_TICKET:
-        console.log(payload)
         const ticketlist = state.tickets.map(ticket => {
-          console.log(ticket, payload[0])
           if (ticket.id === payload[0].id) {
             
             return payload[0]

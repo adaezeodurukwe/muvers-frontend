@@ -31,10 +31,6 @@ const Tickets = () => {
   const { tickets } = useSelector((store: RootStateOrAny) => store.ticket);
 
   useEffect(() => {
-    console.log(tickets);
-  }, [tickets]);
-
-  useEffect(() => {
     dispatch(getUserTickets());
   }, [dispatch]);
 
@@ -56,7 +52,7 @@ const Tickets = () => {
         {tickets && tickets[0] && (
           <>
             {tickets.map((ticket: Ticket, index: number) => (
-              <div key={index.toString()} className="col-3">
+              <div key={index.toString()} className="col-12 col-md-4 mt-2">
                 <Card className="p-3">
                   <div className="py-1">
                     <i>Move day:</i>{" "}
@@ -68,18 +64,18 @@ const Tickets = () => {
                     <div>Status: {ticket.status}</div>
                   </div>
                   
-                  <div className="mt-2 d-flex justify-content-between">
+                  <div className="d-lg-flex justify-content-between">
                     <button
                       type="button"
                       onClick={() => handleOpenStatus(ticket)}
-                      className="py-1 btn bg-green"
+                      className="py-1 d-block btn bg-green mt-2"
                     >
                       <span className="text-capitalize">Change Status</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => handleOpenNote(ticket)}
-                      className="py-1 btn btn-secondary ml-2"
+                      className="py-1 d-block btn btn-secondary mt-2"
                     >
                       {ticket.note ? <span>Modify Note</span> : <span>Add Note</span>}
                     </button>
@@ -100,7 +96,7 @@ const Tickets = () => {
             ))}
           </>
         )}
-        <div className="col-3">
+        <div className="col-12 col-md-4 mt-2">
           <Card
             onClick={() => setOpen(true)}
             className="p-3 d-flex flex-column align-items-center cursor-pointer"
