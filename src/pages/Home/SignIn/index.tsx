@@ -4,19 +4,13 @@ import DialogWrapper from '../DialogBox.js/index.js';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/Actions/index.js';
 import "../SignUp/index.scss";
-import { useHistory } from 'react-router-dom';
 
 const SignIn = ({ handleClose, open }) => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const [details, setDetails] = useState({
     email: "",
     password: "",
   })
-
-  const redirect = () => {
-    history.push("/tickets")
-  }
 
   const handleDetails = ({ target: { value, name } }) => {
     const newValue = {}
@@ -25,7 +19,7 @@ const SignIn = ({ handleClose, open }) => {
   }
 
   const handleSubmit = () => {
-    dispatch(login(details, redirect));
+    dispatch(login(details));
   }
 
   return (

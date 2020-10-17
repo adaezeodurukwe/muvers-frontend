@@ -20,9 +20,12 @@ const auth = (state = initialState, { type, payload }) => {
       }
 
     case types.LOG_IN:
+    localStorage.setItem("moovers_token", payload.token)
+    localStorage.setItem("moovers_isAdmin", payload.user.accountType === "client" ? false : true)
       return {
         ...state,
-        user: payload
+        user: payload,
+        loggedIn: true
       }
     case types.GET_USER:
         return {

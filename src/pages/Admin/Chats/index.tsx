@@ -92,14 +92,17 @@ const Chat = () => {
 
           <CardContent className="admin-chatbox">
             <ScrollToBottom>
-              {connection.chat.map((chat) => (
-                <div
-                  className={user?.id === chat.userId ? "sent" : "recieved"}
-                  key={chat.id}
-                >
-                  {chat.message}
-                </div>
-              ))}
+              {connection.chat.map((chat) => {
+                return user?.id === chat.userId ? (
+                  <div className="sent" key={chat.id}>
+                    {chat.message}
+                  </div>
+                ) : (
+                  <div className="recieved" key={chat.id}>
+                    {chat.message}
+                  </div>
+                );
+              })}
             </ScrollToBottom>
           </CardContent>
 

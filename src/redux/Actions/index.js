@@ -51,16 +51,14 @@ export const getUser = () => async dispatch => {
   }
 }
 
-export const login = (data, callback) => async dispatch => {
+export const login = (data) => async dispatch => {
   try {
     const res = await axios.post("/login", data);
-    localStorage.setItem("moovers_token", res.data.data.token)
-    localStorage.setItem("moovers_isAdmin", res.data.data.user.accountType === "client" ? false : true)
     dispatch({
       type: types.LOG_IN,
-      payload: res.data
+      payload: res.data.data
     })
-    callback();
+    window.location.replace("/tickets")
   } catch (error) {
     dispatch({
       type: types.ERROR,
@@ -127,7 +125,7 @@ export const updateTicket = (data, id, callback, isAdmin) => async dispatch => {
     })
     callback();
   } catch (error) {
-    console.log({error});
+    console.log({ error });
     dispatch({
       type: types.ERROR,
       payload: error.response.data
