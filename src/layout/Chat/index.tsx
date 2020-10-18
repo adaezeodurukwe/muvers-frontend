@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import { TextField, InputAdornment, IconButton } from "@material-ui/core";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import Messages from "./Messages";
-import { getUser } from "../../redux/Actions";
+import { addChat, getUser, setChat } from "../../redux/Actions";
 import { ChatReturnData } from "../../models";
 import "./index.scss";
 
@@ -19,8 +19,8 @@ const Chat = () => {
   const [senderName, setSenderName] = useState(0);
   const [connectionId, setConnectionId] = useState(0);
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([]) as any;
   const { user, loggedIn } = useSelector((store: RootStateOrAny) => store.auth);
+  const { chat } = useSelector((store: RootStateOrAny) => store.chat);
 
   useEffect(() => {
     if (user) {
@@ -39,19 +39,18 @@ const Chat = () => {
   useEffect(() => {
     socket.on("success", (data: ChatReturnData) => {
       setConnectionId(data.connection.id);
+      dispatch(setChat(data.connection.chat));
     });
-  }, [setChat, setConnectionId]);
+  }, [dispatch, setConnectionId]);
 
   useEffect(() => {
     socket.on("conversation", (data: ChatReturnData) => {
-      if (data.connection) {
-        setChat(data.connection.chat);
-      }
       if (data.newChat) {
-        setChat([...chat, data.newChat]);
+        setMessage("");
+        dispatch(addChat([data.newChat]));
       }
     });
-  }, [chat, setChat]);
+  }, [dispatch]);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;

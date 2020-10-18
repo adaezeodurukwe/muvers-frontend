@@ -8,6 +8,20 @@ export const setAdminConnections = (data) => async dispatch => {
   })
 }
 
+export const setChat = (data) => async dispatch => {
+  dispatch({
+    type: types.SET_CHAT,
+    payload: data
+  })
+}
+
+export const addChat = (data) => async dispatch => {
+  dispatch({
+    type: types.ADD_CHAT,
+    payload: data
+  })
+}
+
 export const addNewChat = (newChat) => dispatch => {
   dispatch({
     type: types.ADD_NEW_CHAT,

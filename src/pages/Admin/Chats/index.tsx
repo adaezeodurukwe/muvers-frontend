@@ -85,7 +85,7 @@ const Chat = () => {
     }
     return adminConnections.map((connection: Connection, index: number) => {
       return (
-        <Card className="w-30" key={index.toString()}>
+        <Card className="w-30 mt-3" key={index.toString()}>
           <CardHeader
             title={`${connection.user.firstName} ${connection.user.lastName}`}
           />

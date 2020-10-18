@@ -22,6 +22,19 @@ const chat = (state = initialState, { type, payload }) => {
         adminConnections: newAdminConnections
       }
 
+    case types.SET_CHAT: 
+      return {
+        ...state,
+        chat: payload
+      }
+
+    case types.ADD_CHAT: 
+      const newChat = [...state.chat, ...payload]
+      return {
+        ...state,
+        chat: newChat
+      }
+
     default:
       return state;
   }
