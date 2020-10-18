@@ -1,6 +1,8 @@
 import * as types from "../Types";
 
-const initialState = {};
+const initialState = {
+  chat: []
+};
 
 const chat = (state = initialState, { type, payload }) => {
   switch (type) {
