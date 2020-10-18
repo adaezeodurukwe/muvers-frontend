@@ -31,7 +31,12 @@ const chat = (state = initialState, { type, payload }) => {
       }
 
     case types.ADD_CHAT: 
-      const newChat = [...state.chat, ...payload]
+      let newChat;
+      if (state.chat && state.chat[0]) {
+        newChat = [...state.chat, ...payload]
+      } else {
+        newChat = payload
+      }
       return {
         ...state,
         chat: newChat
