@@ -39,8 +39,6 @@ interface Chat {
   userId: number;
 }
 
-
-
 export interface ChatReturnData {
   newChat: Chat;
   connection: Connection;

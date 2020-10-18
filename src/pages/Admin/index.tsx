@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { ConfirmationNumber, MoveToInbox } from '@material-ui/icons';
-import { NavLink, useHistory, useLocation } from 'react-router-dom';
-import Chat from './Chats';
-import Tickets from './Tickets';
-import CustomSnackbar from '../../components/Snackbar';
-import { AppBar } from '@material-ui/core';
+import React, { useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import { ConfirmationNumber, MoveToInbox } from "@material-ui/icons";
+import { NavLink, useHistory, useLocation } from "react-router-dom";
+import Chat from "./Chats";
+import Tickets from "./Tickets";
+import CustomSnackbar from "../../components/Snackbar";
+import { AppBar } from "@material-ui/core";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   drawer: {
     width: drawerWidth,
@@ -34,23 +34,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Admin = () => {
-  const history = useHistory()
+  const history = useHistory();
   const classes = useStyles();
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   useEffect(() => {
     if (!localStorage.getItem("moovers_isAdmin")) {
       history.push("/");
-    };
-  }, [history])
+    }
+  }, [history]);
 
   const getPage = () => {
     if (pathname.includes("messages")) {
-      return <Chat />
+      return <Chat />;
     } else {
-      return <Tickets />
+      return <Tickets />;
     }
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -66,13 +66,18 @@ const Admin = () => {
           <List className="mt-4">
             <NavLink to="/admin/tickets">
               <ListItem button key="tickets">
-                <ListItemIcon> <ConfirmationNumber /></ListItemIcon>
+                <ListItemIcon>
+                  {" "}
+                  <ConfirmationNumber />
+                </ListItemIcon>
                 <ListItemText primary="Tickets" />
               </ListItem>
             </NavLink>
             <NavLink to="/admin/messages">
               <ListItem button key="messages">
-                <ListItemIcon><MoveToInbox /></ListItemIcon>
+                <ListItemIcon>
+                  <MoveToInbox />
+                </ListItemIcon>
                 <ListItemText primary="Messages" />
               </ListItem>
             </NavLink>
@@ -84,13 +89,17 @@ const Admin = () => {
           <List className="d-flex">
             <NavLink to="/admin/tickets">
               <ListItem button key="tickets">
-                <ListItemIcon> <ConfirmationNumber /></ListItemIcon>
+                <ListItemIcon>
+                  <ConfirmationNumber />
+                </ListItemIcon>
                 <ListItemText primary="Tickets" />
               </ListItem>
             </NavLink>
             <NavLink to="/admin/messages">
               <ListItem button key="messages">
-                <ListItemIcon><MoveToInbox /></ListItemIcon>
+                <ListItemIcon>
+                  <MoveToInbox />
+                </ListItemIcon>
                 <ListItemText primary="Messages" />
               </ListItem>
             </NavLink>
@@ -98,13 +107,11 @@ const Admin = () => {
         </AppBar>
       </div>
       <main className={classes.content}>
-        <div className="mt-5 mt-sm-0">
-          {getPage()}
-        </div>
+        <div className="mt-5 mt-sm-0">{getPage()}</div>
       </main>
       <CustomSnackbar />
     </div>
   );
-}
+};
 
 export default Admin;
