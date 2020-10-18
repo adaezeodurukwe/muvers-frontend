@@ -30,11 +30,9 @@ const ticket = (state = initialState, { type, payload }) => {
       case types.ADMIN_UPDATE_TICKET:
         const tickets = state.allTickets.map(ticket => {
           if (ticket.id === payload[0].id) {
-            
-            return payload[0]
-          } else {
-            return ticket
-          }
+            ticket.status = payload[0].status
+          }  
+          return ticket
         })
       return {
         ...state,
